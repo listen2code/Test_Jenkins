@@ -45,16 +45,15 @@ android {
         }
     }
 
-    // 多渠道
+    // *********多渠道*********
     productFlavors {
-        Baidu {}
         WanDouJia {}
         Xiaomi {}
     }
     productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [CHANNEL: name]
+        flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
     }
-    // 多渠道
+    // *********多渠道*********
 
 }
 
