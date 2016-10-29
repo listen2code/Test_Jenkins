@@ -32,9 +32,15 @@ android {
                 variant.outputs.each { output ->
                     def apk = output.outputFile
                     if (apk != null && apk.name.endsWith('.apk')) {
-                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-//                        output.outputFile = new File(apk.parent, fileName)
-                        output.outputFile = new File("/Users/lisong/Desktop/OuputApk", fileName)
+                        def fileName = ""
+                        if("releaseFlavors".equals(${variant.productFlavors[0].name})) {
+                            // 固定输出一个release包
+                            fileName = "lisong_newest_release.apk"
+                        } else {
+                            fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        }
+                        // 自定义APK输出路径
+                        output.outputFile = new File("/Users/lisong/Desktop/OuputApk", fileName)//new File(apk.parent, fileName)
                     }
                 }
             }
@@ -49,12 +55,15 @@ android {
 
     // *********多渠道*********
     productFlavors {
+        releaseFlavors {}
         WanDouJia {}
         Xiaomi {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+        }
     }
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
-    }
+
     // *********多渠道*********
 
 }
@@ -69,6 +78,6 @@ dependencies {
 }
 
 def releaseTime() {
-    return new Date().format("MM_dd_hh_mm", TimeZone.getTimeZone("GMT+08:00"))
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
 }
 
