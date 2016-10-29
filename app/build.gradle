@@ -27,11 +27,21 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.testjenkins
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def apk = output.outputFile
+                    if (apk != null && apk.name.endsWith('.apk')) {
+                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        output.outputFile = new File(apk.parent + "/package", fileName)
+                    }
+                }
+            }
         }
         debug {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.testjenkins
         }
     }
 
@@ -44,4 +54,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd hh:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
 }
