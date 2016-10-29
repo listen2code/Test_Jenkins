@@ -39,6 +39,7 @@ android {
                     if (apk != null && apk.name.endsWith('.apk')) {
                         def fileName = ""
                         if("releaseFlavors" == ${variant.productFlavors[0].name}) {
+
                             // 固定输出一个release包
                             fileName = "lisong_newest_release.apk"
                         } else {
