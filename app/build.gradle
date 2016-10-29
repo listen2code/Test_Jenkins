@@ -31,8 +31,8 @@ android {
                 variant.outputs.each { output ->
                     def apk = output.outputFile
                     if (apk != null && apk.name.endsWith('.apk')) {
-                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}.apk"
-                        output.outputFile = new File(apk.parent + "/package", fileName)
+                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(apk.parent, fileName)
                     }
                 }
             }
@@ -44,6 +44,17 @@ android {
             signingConfig signingConfigs.testjenkins
         }
     }
+
+    // 多渠道
+    productFlavors {
+        Baidu {}
+        WanDouJia {}
+        Xiaomi {}
+    }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [CHANNEL: name]
+    }
+    // 多渠道
 
 }
 
@@ -57,5 +68,6 @@ dependencies {
 }
 
 def releaseTime() {
-    return new Date().format("yyyy-MM-dd hh:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
+    return new Date().format("MM_dd_hh_mm_ss", TimeZone.getTimeZone("GMT+08:00"))
 }
+
