@@ -1,12 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
     signingConfigs {
         testjenkins {
-            keyAlias 'testjenkins'
-            keyPassword 'testjenkins'
-            storeFile file('../tools/test_jenkins.jks')
-            storePassword 'testjenkins'
+            keyAlias properties.getProperty("keystroe_keyAlias")
+            keyPassword properties.getProperty("keystroe_storeFile")
+            storeFile file(properties.getProperty("keystroe_storeFile"))
+            storePassword properties.getProperty("keystroe_storePassword")
         }
     }
 
@@ -21,10 +25,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-
     buildTypes {
         release {
             minifyEnabled true
@@ -37,13 +37,7 @@ android {
                 variant.outputs.each { output ->
                     def apk = output.outputFile
                     if (apk != null && apk.name.endsWith('.apk')) {
-                        def fileName = ""
-                        if("releaseFlavors" == ${variant.productFlavors[0].name}) {
-                            // 固定输出一个release包
-                            fileName = "lisong_newest_release.apk"
-                        } else {
-                            fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                        }
+                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                         // 自定义APK输出路径
                         output.outputFile = new File(properties.getProperty("apk_output_path"), fileName)//new File(apk.parent, fileName)
                     }
@@ -70,6 +64,20 @@ android {
     }
     // *********多渠道*********
 
+    //有时候引用的三方库会带有一些配置文件xxxx.properties,或者license信息，打包的时候想去掉这些信息
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+
+    }
 }
 
 dependencies {
