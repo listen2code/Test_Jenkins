@@ -33,16 +33,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.testjenkins
             // 配置多渠道批量打包
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def apk = output.outputFile
-                    if (apk != null && apk.name.endsWith('.apk')) {
-                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                        // 自定义APK输出路径
-                        output.outputFile = new File(properties.getProperty("apk_output_path"), fileName)//new File(apk.parent, fileName)
-                    }
-                }
-            }
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def apk = output.outputFile
+//                    if (apk != null && apk.name.endsWith('.apk')) {
+//                        def fileName = "lisong_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+//                        // 自定义APK输出路径
+//                        output.outputFile = new File(properties.getProperty("apk_output_path"), fileName)//new File(apk.parent, fileName)
+//                    }
+//                }
+//            }
         }
         debug {
             minifyEnabled false
