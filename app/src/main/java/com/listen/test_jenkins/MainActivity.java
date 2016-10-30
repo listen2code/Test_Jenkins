@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityInfo info = null;
         try {
             info = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
-            mTvChannel.setText(info.metaData.getString("CHANNEL"));
+            mTvChannel.setText(info.metaData.getString("CHANNEL") + "，master");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
