@@ -8,7 +8,7 @@ android {
     signingConfigs {
         testjenkins {
             keyAlias properties.getProperty("keystroe_keyAlias")
-            keyPassword properties.getProperty("keystroe_storeFile")
+            keyPassword properties.getProperty("keystroe_keyPassword")
             storeFile file(properties.getProperty("keystroe_storeFile"))
             storePassword properties.getProperty("keystroe_storePassword")
         }
