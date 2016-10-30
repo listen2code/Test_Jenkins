@@ -10,6 +10,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTvChannel;
 
+
+
+    public static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityInfo info = null;
         try {
             info = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
-            mTvChannel.setText(info.metaData.getString("CHANNEL") + "，master");
+            mTvChannel.setText(TAG + "，" + info.metaData.getString("CHANNEL") + "，master");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
