@@ -53,15 +53,15 @@ android {
     }
 
     // *********多渠道*********
-    productFlavors {
-        releaseFlavors {}
-        WanDouJia {}
-        Xiaomi {}
+    //productFlavors {
+    //    releaseFlavors {}
+    //    WanDouJia {}
+    //    Xiaomi {}
 
-        productFlavors.all { flavor ->
-            flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
-        }
-    }
+    //    productFlavors.all { flavor ->
+    //        flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+    //    }
+    //}
     // *********多渠道*********
 
     //有时候引用的三方库会带有一些配置文件xxxx.properties,或者license信息，打包的时候想去掉这些信息
